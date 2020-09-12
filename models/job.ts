@@ -3,6 +3,13 @@ export {}; //typescript error handle
 import * as mongoose from "mongoose";
 import { IJob } from "../types";
 
+type IJobDocument = IJob & mongoose.Document;
+
+interface IJobModel extends mongoose.Model<IJobDocument> {
+  findAll: () => [IJob];
+  create: (job) => any;
+}
+
 // Define Schemes
 const jobSchema = new mongoose.Schema(
   {
@@ -20,4 +27,14 @@ const jobSchema = new mongoose.Schema(
   }
 );
 
-export default mongoose.model<IJob & mongoose.Document>("Job", jobSchema);
+jobSchema.statics.create = function (payload: IJob) {
+  const job = new this(payload);
+  return job.save();
+};
+
+// Find All
+jobSchema.statics.findAll = function () {
+  return this.find({});
+};
+
+export default mongoose.model<IJobDocument & IJobModel>("Job", jobSchema);

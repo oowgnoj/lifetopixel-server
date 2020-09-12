@@ -3,7 +3,13 @@ export {}; //typescript error handle
 import * as mongoose from "mongoose";
 import { IField } from "../types";
 
-const FieldSchema = new mongoose.Schema(
+type IFieldDocument = IField & mongoose.Document;
+
+interface IFieldModel extends mongoose.Model<IFieldDocument> {
+  findAll: () => [IField];
+  create: (field) => any;
+}
+const fieldSchema = new mongoose.Schema(
   {
     name: { type: String },
     description: { type: String }, // 알고리즘, 책
@@ -15,5 +21,17 @@ const FieldSchema = new mongoose.Schema(
   }
 );
 
+fieldSchema.statics.create = function (payload: IField) {
+  const field = new this(payload);
+  return field.save();
+};
+
+// Find All
+fieldSchema.statics.findAll = function () {
+  return this.find({});
+};
 // Create Model & Export
-export default mongoose.model<IField & mongoose.Document>("Field", FieldSchema);
+export default mongoose.model<IFieldDocument & IFieldModel>(
+  "Field",
+  fieldSchema
+);
