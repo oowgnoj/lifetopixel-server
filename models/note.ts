@@ -16,6 +16,7 @@ const NoteSchema = new mongoose.Schema(
     summary: { type: String },
     detail: { type: String },
     tag: { type: Array },
+    user: { type: mongoose.Schema.Types.ObjectId, ref: "User" },
     job: { type: mongoose.Schema.Types.ObjectId, ref: "job" },
     field: { type: mongoose.Schema.Types.ObjectId, ref: "Field" },
   },
@@ -23,16 +24,6 @@ const NoteSchema = new mongoose.Schema(
     timestamps: true,
   }
 );
-
-NoteSchema.statics.create = function (payload: INote) {
-  const note = new this(payload);
-  return note.save();
-};
-
-// Find All
-NoteSchema.statics.findAll = function () {
-  return this.find({});
-};
 
 // Create Model & Export
 export default mongoose.model<INoteDocument & INoteModel>("Note", NoteSchema);

@@ -19,6 +19,7 @@ const jobSchema = new mongoose.Schema(
     startTime: { type: Date },
     endTime: { type: Date },
     duration: { type: Number }, // 시간 단위
+    user: { type: mongoose.Schema.Types.ObjectId, ref: "User" },
     field: { type: mongoose.Schema.Types.ObjectId, ref: "Field" },
     memo: { type: mongoose.Schema.Types.ObjectId, ref: "Memo" },
   },
@@ -26,15 +27,5 @@ const jobSchema = new mongoose.Schema(
     timestamps: true,
   }
 );
-
-jobSchema.statics.create = function (payload: IJob) {
-  const job = new this(payload);
-  return job.save();
-};
-
-// Find All
-jobSchema.statics.findAll = function () {
-  return this.find({});
-};
 
 export default mongoose.model<IJobDocument & IJobModel>("Job", jobSchema);
