@@ -1,5 +1,4 @@
 export default interface IDay {
-  id: number;
   goodThing: string;
   badThing: string;
   goalTomorrow: string;

@@ -1,5 +1,5 @@
 export default interface IField {
-  id: number;
+  _id: string;
   name: string;
   description: string;
   jobIds?: Array<number>;

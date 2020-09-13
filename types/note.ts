@@ -1,5 +1,5 @@
 export default interface INote {
-  id: number;
+  _id: string;
   fieldId: number;
   title: string;
   summary: string;

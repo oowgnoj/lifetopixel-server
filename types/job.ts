@@ -1,5 +1,5 @@
 export default interface IJob {
-  id: number;
+  _id: string;
   fieldIds: Array<number>;
   noteId: number;
   name: string;
