@@ -5,8 +5,9 @@ interface IDayService {
   postDay: (IDay) => void;
   getDay: () => any;
 }
+// optinal type =[week, month, year]
 const DayService: IDayService = {
-  postDay: (payload: IDay) => {
+  postDay: async (payload: IDay) => {
     const day = new Day(payload);
     return day.save();
   },

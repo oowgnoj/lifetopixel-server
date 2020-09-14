@@ -2,6 +2,9 @@ import express, { Request, Response } from "express";
 const router = require("express").Router();
 import { Day } from "../models";
 import DayService from "../services/day";
+
+const dayRouter: express.Router = express.Router();
+
 router.post("/", async (req: Request, res: Response) => {
   try {
     const day = await DayService.postDay(req.body);
