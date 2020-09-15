@@ -1,22 +1,24 @@
 import express, { Request, Response } from "express";
 const router = require("express").Router();
 import { User } from "../models";
+import UserService from "../services/user";
 
-router.post("/", async (req: Request, res: Response) => {
+router.post("/register", async (req: Request, res: Response) => {
   try {
-    const day = await User.create(req.body);
-    res.status(200).json(day);
+    const result = await UserService.register(req.body);
+    return res.status(200).json(result);
   } catch (error) {
-    res.status(500).send(error);
+    return res.status(500).send(error);
   }
 });
 
-router.get("/", async (req: Request, res: Response) => {
+router.get("/login", async (req: Request, res: Response) => {
   try {
-    const user = await User.find({});
-    res.status(200).json(user);
+    const token = await UserService.login(req.body);
+    res.cookie("jwt", token, { secure: true, httpOnly: true });
+    return res.status(200).send(true);
   } catch (error) {
-    res.status(404).send({ err: "Todo not found" });
+    res.status(404).send(error);
   }
 });
 

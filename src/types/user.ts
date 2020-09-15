@@ -1,7 +1,7 @@
 export default interface IUser {
   _id: string;
   email: number;
-  nickname: string;
+  username: string;
   password: string;
   days: Array<string>;
   fields: Array<string>;
