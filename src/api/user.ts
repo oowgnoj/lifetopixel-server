@@ -1,9 +1,8 @@
 import express, { Request, Response } from "express";
-const router = require("express").Router();
-import { User } from "../models";
 import UserService from "../services/user";
 
-router.post("/register", async (req: Request, res: Response) => {
+const userRouter = require("express").Router();
+userRouter.post("/register", async (req: Request, res: Response) => {
   try {
     const result = await UserService.register(req.body);
     return res.status(200).json(result);
@@ -12,14 +11,14 @@ router.post("/register", async (req: Request, res: Response) => {
   }
 });
 
-router.get("/login", async (req: Request, res: Response) => {
+userRouter.get("/login", async (req: Request, res: Response) => {
   try {
     const token = await UserService.login(req.body);
     res.cookie("jwt", token, { secure: true, httpOnly: true });
-    return res.status(200).send(true);
+    return res.status(200).send(token);
   } catch (error) {
     res.status(404).send(error);
   }
 });
 
-module.exports = router;
+export default userRouter;

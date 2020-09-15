@@ -6,7 +6,7 @@ import { IUser } from "../types";
 type IUserDocument = IUserModel & mongoose.Document;
 
 interface IUserModel extends mongoose.Model<IUserDocument> {
-  findOneByEmail: (email) => boolean;
+  findOneByEmail: (email) => any;
   validatePassword: (email, password) => IUser;
 }
 

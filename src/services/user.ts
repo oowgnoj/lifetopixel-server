@@ -3,7 +3,6 @@ import user from "../models/user";
 import { IUser } from "../types";
 import jwt from "jsonwebtoken";
 require("dotenv").config();
-const jwtExpirySeconds = 300;
 
 interface IUserService {
   register: (body) => void;
@@ -27,8 +26,8 @@ const UserService: IUserService = {
   login: async ({ email, password }) => {
     const user = await User.validatePassword(email, password);
     if (user) {
-      const token = jwt.sign({ uid: user.email }, process.env.secret, {
-        expiresIn: 60 * 60,
+      const token: String = jwt.sign({ uid: user.email }, process.env.secret, {
+        expiresIn: 60 * 60 * 24,
         algorithm: "HS256",
       });
       return token;
