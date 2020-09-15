@@ -1,19 +1,22 @@
-// Create new job document
-jobSchema.statics.create = function (payload: IJob) {
-  // this === Model
-  const job = new this(payload);
-  // return Promise
-  return job.save();
+import { Job, User } from "../models";
+import { IJob } from "../types";
+
+interface IJobService {
+  post: (IJob, uid) => void;
+  get: (email) => any;
+}
+// optinal type =[week, month, year]
+const JobService: IJobService = {
+  post: async (payload: IJob, email) => {
+    const { _id } = await User.findOneByEmail(email);
+    payload.userId = _id;
+    const job = await Job.create(payload);
+    return job.save();
+  },
+  get: async (email) => {
+    const { _id } = await User.findOneByEmail(email);
+    return Job.findAllByUserId(_id);
+  },
 };
 
-// Find All
-jobSchema.statics.findAll = function () {
-  // return promise
-  // V4부터 exec() 필요없음
-  return this.find({});
-};
-
-// Find One by jobid
-jobSchema.statics.findOneByjobid = function (jobId: Number) {
-  return this.findOne({ jobId });
-};
+export default JobService;
