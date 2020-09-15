@@ -1,10 +1,13 @@
 export {}; //typescript error handle
 
 import * as mongoose from "mongoose";
-import { IDay } from "../types";
+import { IDay, IUser } from "../types";
 
 type IDayDocument = IDay & mongoose.Document;
 
+interface IDayModel extends mongoose.Model<IDayDocument> {
+  findAllByUserId: (email) => IUser | boolean;
+}
 // Define Schemes
 const daySchema = new mongoose.Schema(
   {
@@ -21,5 +24,15 @@ const daySchema = new mongoose.Schema(
   }
 );
 
+daySchema.statics.create = async function (day: IDay) {
+  return new this(day);
+};
+
+daySchema.statics.findAllByUserId = async function (email) {
+  return await this.find({
+    userId: email,
+  }).exec();
+};
+
 // Create Model & Export
-export default mongoose.model<IDayDocument>("Day", daySchema);
+export default mongoose.model<IDayDocument, IDayModel>("Day", daySchema);

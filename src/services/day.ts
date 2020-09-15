@@ -1,18 +1,21 @@
-import { Day } from "../models";
+import { Day, User } from "../models";
 import { IDay } from "../types";
 
 interface IDayService {
-  postDay: (IDay) => void;
-  getDay: () => any;
+  post: (IDay, uid) => void;
+  get: (email) => any;
 }
 // optinal type =[week, month, year]
 const DayService: IDayService = {
-  postDay: async (payload: IDay) => {
-    const day = new Day(payload);
+  post: async (payload: IDay, email) => {
+    const { _id } = await User.findOneByEmail(email);
+    payload.userId = _id;
+    const day = await Day.create(payload);
     return day.save();
   },
-  getDay: async () => {
-    return Day.find({});
+  get: async (email) => {
+    const { _id } = await User.findOneByEmail(email);
+    return Day.findAllByUserId(_id);
   },
 };
 
