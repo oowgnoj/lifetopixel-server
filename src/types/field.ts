@@ -4,4 +4,5 @@ export default interface IField {
   description: string;
   jobIds?: Array<number>;
   noteIds?: Array<number>;
+  userId: string;
 }
