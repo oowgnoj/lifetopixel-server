@@ -5,4 +5,5 @@ export default interface INote {
   summary: string;
   detail: string;
   tag: Array<string>;
+  userId: string;
 }
