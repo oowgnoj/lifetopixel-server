@@ -1,10 +1,10 @@
 export default interface IUser {
   _id: string;
-  email: number;
+  email: string;
   username: string;
   password: string;
   days: Array<string>;
   fields: Array<string>;
-  memos: Array<string>;
+  notes: Array<string>;
   jobs: Array<string>;
 }

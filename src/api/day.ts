@@ -23,7 +23,7 @@ dayRouter.get("/", async (req: Request, res: Response) => {
     const { term } = req.query;
     const { uid } = req.decoded;
     let days = await DayService.get(uid);
-    if (term) {
+    if (term && typeof term == "string") {
       days = filterPeriod(days, term);
     }
 

@@ -2,8 +2,8 @@ import { Field, User } from "../models";
 import { IField } from "../types";
 
 interface IFieldService {
-  post: (IField, uid) => void;
-  get: (email) => any;
+  post: (field: IField, id: string) => void;
+  get: (email: string) => any;
 }
 // optinal type =[week, month, year]
 const FieldService: IFieldService = {

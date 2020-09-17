@@ -2,7 +2,7 @@
 require("dotenv").config();
 
 import express from "express";
-import AppRouter from "./api";
+import AppRouter from "./src/api";
 const mongoose = require("mongoose");
 const bodyParser = require("body-parser");
 const app = express();
@@ -26,7 +26,7 @@ mongoose
   .catch((e: Error) => console.error(e));
 
 // jwt
-app.set("jwt-secret", process.env.secret);
+app.set("jwt-secret", process.env.TOKEN_SECRET);
 app.use(AppRouter);
 
 app.listen(PORT, () => {

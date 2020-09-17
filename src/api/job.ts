@@ -24,7 +24,7 @@ jobRouter.get("/", async (req: Request, res: Response) => {
     const { term } = req.query;
     const { uid } = req.decoded;
     let days = await JobService.get(uid);
-    if (term) {
+    if (term && typeof term == "string") {
       days = filterPeriod(days, term);
     }
     res.status(200).json(days);

@@ -21,7 +21,7 @@ const jobSchema = new mongoose.Schema(
     duration: { type: Number }, // 시간 단위
     userId: { type: mongoose.Schema.Types.ObjectId, ref: "User" },
     field: { type: mongoose.Schema.Types.ObjectId, ref: "Field" },
-    memo: { type: mongoose.Schema.Types.ObjectId, ref: "Memo" },
+    note: { type: mongoose.Schema.Types.ObjectId, ref: "Note" },
   },
   {
     timestamps: true,

@@ -15,7 +15,6 @@ const NoteService: INoteService = {
   },
   get: async (email) => {
     const { _id } = await User.findOneByEmail(email);
-    console.log("id is", _id);
     return Note.findAllByUserId(_id);
   },
 };

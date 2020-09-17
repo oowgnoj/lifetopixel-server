@@ -23,10 +23,8 @@ noteRouter.get("/", async (req: Request, res: Response) => {
   try {
     const { term } = req.query;
     const { uid } = req.decoded;
-    console.log("hello", uid);
     let notes = await NoteService.get(uid);
-    console.log(notes);
-    if (term) {
+    if (term && typeof term == "string") {
       notes = filterPeriod(notes, term);
     }
     res.status(200).json(notes);

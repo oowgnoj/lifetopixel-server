@@ -7,6 +7,7 @@ type IUserDocument = IUserModel & mongoose.Document;
 
 interface IUserModel extends mongoose.Model<IUserDocument> {
   findOneByEmail: (email) => any;
+  insert: (email, password, username) => any;
   validatePassword: (email, password) => IUser;
 }
 
@@ -21,7 +22,7 @@ const userSchema = new mongoose.Schema(
     timestamps: true,
   }
 );
-userSchema.statics.create = function (email, password, username) {
+userSchema.statics.insert = function (email, password, username) {
   const user = new this({
     email,
     password,

@@ -1,13 +1,13 @@
 import { User } from "../models";
-import user from "../models/user";
 import { IUser } from "../types";
 import jwt from "jsonwebtoken";
+import { Request } from "express";
 require("dotenv").config();
 
 interface IUserService {
-  register: (body) => void;
-  checkUserExist: (email) => any;
-  login: (body) => any;
+  register: (body: IUser) => void;
+  checkUserExist: (email: string) => any;
+  login: (body: IUser) => any;
 }
 // optinal type =[week, month, year]
 const UserService: IUserService = {
@@ -16,7 +16,7 @@ const UserService: IUserService = {
     if (isEmailExist) {
       return new Error("email already exist");
     } else {
-      const user = User.create(email, password, username);
+      const user = User.insert(email, password, username);
       return user;
     }
   },
@@ -26,10 +26,14 @@ const UserService: IUserService = {
   login: async ({ email, password }) => {
     const user = await User.validatePassword(email, password);
     if (user) {
-      const token: String = jwt.sign({ uid: user.email }, process.env.secret, {
-        expiresIn: 60 * 60 * 24,
-        algorithm: "HS256",
-      });
+      const token: String = jwt.sign(
+        { uid: user.email },
+        process.env.TOKEN_SECRET,
+        {
+          expiresIn: 60 * 60 * 24,
+          algorithm: "HS256",
+        }
+      );
       return token;
     }
   },

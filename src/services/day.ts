@@ -2,8 +2,8 @@ import { Day, User } from "../models";
 import { IDay } from "../types";
 
 interface IDayService {
-  post: (IDay, uid) => void;
-  get: (email) => any;
+  post: (payload: IDay, uid: string) => void;
+  get: (email: string) => any;
 }
 // optinal type =[week, month, year]
 const DayService: IDayService = {
