@@ -1,17 +1,8 @@
 export const filterPeriod = (data: Array<any>, term: string) => {
-  let target = new Date();
-  switch (term) {
-    case "week":
-      target.setDate(target.getDate() - 7);
-      data = data.filter((element: any) => element.createdAt > target);
-    case "month":
-      target.setDate(target.getDate() - 30);
-      data = data.filter((element: any) => element.createdAt > target);
-    case "year":
-      target.setDate(target.getDate() - 365);
-      data = data.filter((element: any) => element.createdAt > target);
-  }
-  return data;
+  const target = new Date();
+  const range = { week: 7, month: 30, year: 365 };
+  target.setDate(target.getDate() - range[term]);
+  return data.filter((element: any) => element.createdAt > target);
 };
 
 export default {};

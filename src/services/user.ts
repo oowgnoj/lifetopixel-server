@@ -1,7 +1,7 @@
+import jwt from "jsonwebtoken";
 import { User } from "../models";
 import { IUser } from "../types";
-import jwt from "jsonwebtoken";
-import { Request } from "express";
+
 require("dotenv").config();
 
 interface IUserService {
@@ -9,34 +9,38 @@ interface IUserService {
   checkUserExist: (email: string) => any;
   login: (body: IUser) => any;
 }
-// optinal type =[week, month, year]
-const UserService: IUserService = {
-  register: async ({ email, password, username }) => {
-    const isEmailExist = await UserService.checkUserExist(email);
-    if (isEmailExist) {
-      return new Error("email already exist");
-    } else {
-      const user = User.insert(email, password, username);
-      return user;
+
+export default class UserService implements IUserService {
+  public async register({ email, password, username }: IUser) {
+    const isUserExist = await this.checkUserExist(email);
+    if (isUserExist) {
+      throw new Error("email already exist");
     }
-  },
-  checkUserExist: async (email) => {
+    const user = User.insert(email, password, username);
+    return user;
+  }
+
+  public async checkUserExist(email) {
     return await User.findOneByEmail(email);
-  },
-  login: async ({ email, password }) => {
+  }
+
+  public async login({ email, password }: IUser) {
     const user = await User.validatePassword(email, password);
     if (user) {
-      const token: String = jwt.sign(
-        { uid: user.email },
-        process.env.TOKEN_SECRET,
-        {
-          expiresIn: 60 * 60 * 24,
-          algorithm: "HS256",
-        }
-      );
-      return token;
+      const token: String = this.generateToken(email);
+      return { user, token };
+    } else {
+      throw new Error("Invalid Password");
     }
-  },
-};
+  }
 
-export default UserService;
+  private generateToken(email) {
+    const today = new Date();
+    const exp = new Date(today);
+    exp.setDate(today.getDate() + 60);
+    return jwt.sign({ uid: email }, process.env.TOKEN_SECRET, {
+      expiresIn: 60 * 60 * 24,
+      algorithm: "HS256",
+    });
+  }
+}

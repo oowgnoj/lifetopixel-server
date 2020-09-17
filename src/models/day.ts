@@ -28,9 +28,9 @@ daySchema.statics.create = async function (day: IDay) {
   return new this(day);
 };
 
-daySchema.statics.findAllByUserId = async function (email) {
+daySchema.statics.findAllByUserId = async function (id) {
   return await this.find({
-    userId: email,
+    userId: id,
   }).exec();
 };
 

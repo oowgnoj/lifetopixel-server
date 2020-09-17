@@ -27,7 +27,6 @@ fieldRouter.get("/", async (req: Request, res: Response) => {
     if (term && typeof term == "string") {
       days = filterPeriod(days, term);
     }
-
     res.status(200).json(days);
   } catch (error) {
     res.status(404).send({ err: "Todo not found" });

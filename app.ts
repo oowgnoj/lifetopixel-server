@@ -16,6 +16,7 @@ app.use(bodyParser.json());
 
 // Node.js의 native Promise 사용
 mongoose.Promise = global.Promise;
+
 // CONNECT TO MONGODB SERVER
 mongoose
   .connect(process.env.MONGO_URI, {

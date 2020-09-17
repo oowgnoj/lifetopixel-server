@@ -29,7 +29,7 @@ dayRouter.get("/", async (req: Request, res: Response) => {
 
     res.status(200).json(days);
   } catch (error) {
-    res.status(404).send({ err: "Todo not found" });
+    res.status(404).send({ err: "day not found" });
   }
 });
 

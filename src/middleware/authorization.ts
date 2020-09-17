@@ -1,4 +1,6 @@
 const jwt = require("jsonwebtoken");
+import { resolve } from "path";
+import { User } from "../models";
 
 export default (req, res, next) => {
   // read the token from header or url
@@ -18,6 +20,12 @@ export default (req, res, next) => {
       resolve(decoded);
     });
   });
+  const getUidFromEmail = (decoded) => {
+    return new Promise((resolve, reject) => {
+      const email = decoded.uid;
+      resolve(User.findOneByEmail(email));
+    });
+  };
 
   // if it has failed to verify, it will return an error message
   const onError = (error) => {
@@ -28,8 +36,11 @@ export default (req, res, next) => {
   };
 
   // process the promise
-  p.then((decoded) => {
-    req.decoded = decoded;
-    next();
+  p.then((decoded: any) => {
+    getUidFromEmail(decoded).then((user: any) => {
+      decoded.userId = user._id;
+      req.decoded = decoded;
+      next();
+    });
   }).catch(onError);
 };
