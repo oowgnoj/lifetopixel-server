@@ -7,7 +7,7 @@ type IJobDocument = IJob & mongoose.Document;
 
 interface IJobModel extends mongoose.Model<IJobDocument> {
   create: (job) => any;
-  findAllByUserId: (email) => IJob[] | boolean;
+  findAllByUserId: (userId: string) => IJob[];
 }
 
 // Define Schemes
@@ -32,9 +32,9 @@ jobSchema.statics.create = async function (job: IJob) {
   return new this(job);
 };
 
-jobSchema.statics.findAllByUserId = async function (email) {
+jobSchema.statics.findAllByUserId = async function (userId) {
   return await this.find({
-    userId: email,
+    userId: userId,
   }).exec();
 };
 

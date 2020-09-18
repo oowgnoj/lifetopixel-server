@@ -6,7 +6,7 @@ import { IDay, IUser } from "../types";
 type IDayDocument = IDay & mongoose.Document;
 
 interface IDayModel extends mongoose.Model<IDayDocument> {
-  findAllByUserId: (email) => IUser | boolean;
+  findAllByUserId: (email) => IDay[];
 }
 // Define Schemes
 const daySchema = new mongoose.Schema(
@@ -28,9 +28,9 @@ daySchema.statics.create = async function (day: IDay) {
   return new this(day);
 };
 
-daySchema.statics.findAllByUserId = async function (id) {
+daySchema.statics.findAllByUserId = async function (userId) {
   return await this.find({
-    userId: id,
+    userId: userId,
   }).exec();
 };
 

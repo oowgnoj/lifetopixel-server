@@ -39,6 +39,9 @@ export default (req, res, next) => {
     getUidFromEmail(decoded).then((user: any) => {
       decoded.userId = user._id;
       req.decoded = decoded;
+      if (req.method === "POST") {
+        req.body.userId = user._id;
+      }
       next();
     });
   }).catch(onError);

@@ -5,23 +5,24 @@ import { IUser } from "../types";
 require("dotenv").config();
 
 interface IUserService {
-  register: (email, password, username) => void;
+  register: (email, password, username) => any;
   login: (email, password) => any;
   checkUserExist: (email: string) => any;
 }
 
 export default class UserService implements IUserService {
   public async register(email, password, username) {
-    const isUserExist = await this.checkUserExist(email);
-    if (isUserExist) {
-      throw new Error("email already exist");
-    }
+    await this.checkUserExist(email);
     const user = User.insert(email, password, username);
     return user;
   }
 
   public async checkUserExist(email) {
-    return await User.findOneByEmail(email);
+    const user = await User.findOneByEmail(email);
+    if (user) {
+      throw Error("존재하는 이메일입니다.");
+    }
+    return user;
   }
 
   public async login(email, password) {
@@ -30,7 +31,7 @@ export default class UserService implements IUserService {
       const token: String = this.generateToken(email);
       return { user, token };
     } else {
-      throw new Error("Invalid Password");
+      throw new Error("회원정보를 확인해주세요.");
     }
   }
 
