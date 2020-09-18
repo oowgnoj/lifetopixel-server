@@ -8,8 +8,8 @@ fieldRouter.post(
   "/",
   async (req: Request, res: Response) => {
     try {
-      const { uid } = req.decoded;
-      const field = await FieldService.post(req.body, uid);
+      const { userId } = req.decoded;
+      const field = await FieldService.post(req.body, userId);
       res.status(200).json(field);
     } catch (error) {
       console.error(error);
@@ -22,8 +22,8 @@ fieldRouter.post(
 fieldRouter.get("/", async (req: Request, res: Response) => {
   try {
     const { term } = req.query;
-    const { uid } = req.decoded;
-    let days = await FieldService.get(uid);
+    const { userId } = req.decoded;
+    let days = await FieldService.get(userId);
     if (term && typeof term == "string") {
       days = filterPeriod(days, term);
     }

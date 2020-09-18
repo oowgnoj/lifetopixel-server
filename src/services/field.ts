@@ -2,21 +2,19 @@ import { Field, User } from "../models";
 import { IField } from "../types";
 
 interface IFieldService {
-  post: (field: IField, id: string) => void;
-  get: (email: string) => any;
+  post: (field: IField, userId: string) => void;
+  get: (userId: string) => any;
 }
 // optinal type =[week, month, year]
 const FieldService: IFieldService = {
-  post: async (payload: IField, email) => {
-    const { _id } = await User.findOneByEmail(email);
-    payload.userId = _id;
+  post: async (payload: IField, userId) => {
+    payload.userId = userId;
     const field = await Field.create(payload);
     return field.save();
   },
 
-  get: async (email) => {
-    const { _id } = await User.findOneByEmail(email);
-    return Field.findAllByUserId(_id);
+  get: async (userId) => {
+    return Field.findAllByUserId(userId);
   },
 };
 

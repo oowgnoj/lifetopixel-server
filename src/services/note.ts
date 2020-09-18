@@ -7,15 +7,13 @@ interface INoteService {
 }
 // optinal type =[week, month, year]
 const NoteService: INoteService = {
-  post: async (payload: INote, email) => {
-    const { _id } = await User.findOneByEmail(email);
-    payload.userId = _id;
+  post: async (payload: INote, userId) => {
+    payload.userId = userId;
     const note = await Note.create(payload);
     return note.save();
   },
-  get: async (email) => {
-    const { _id } = await User.findOneByEmail(email);
-    return Note.findAllByUserId(_id);
+  get: async (userId) => {
+    return Note.findAllByUserId(userId);
   },
 };
 

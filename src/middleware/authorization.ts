@@ -1,5 +1,4 @@
 const jwt = require("jsonwebtoken");
-import { resolve } from "path";
 import { User } from "../models";
 
 export default (req, res, next) => {

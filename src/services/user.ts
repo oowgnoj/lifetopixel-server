@@ -5,13 +5,13 @@ import { IUser } from "../types";
 require("dotenv").config();
 
 interface IUserService {
-  register: (body: IUser) => void;
+  register: (email, password, username) => void;
+  login: (email, password) => any;
   checkUserExist: (email: string) => any;
-  login: (body: IUser) => any;
 }
 
 export default class UserService implements IUserService {
-  public async register({ email, password, username }: IUser) {
+  public async register(email, password, username) {
     const isUserExist = await this.checkUserExist(email);
     if (isUserExist) {
       throw new Error("email already exist");
@@ -24,7 +24,7 @@ export default class UserService implements IUserService {
     return await User.findOneByEmail(email);
   }
 
-  public async login({ email, password }: IUser) {
+  public async login(email, password) {
     const user = await User.validatePassword(email, password);
     if (user) {
       const token: String = this.generateToken(email);

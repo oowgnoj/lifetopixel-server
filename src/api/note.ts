@@ -9,8 +9,8 @@ noteRouter.post(
   "/",
   async (req: Request, res: Response) => {
     try {
-      const { uid } = req.decoded;
-      const day = await NoteService.post(req.body, uid);
+      const { userId } = req.decoded;
+      const day = await NoteService.post(req.body, userId);
       res.status(200).json(day);
     } catch (error) {
       res.status(500).send(error);
@@ -22,8 +22,8 @@ noteRouter.post(
 noteRouter.get("/", async (req: Request, res: Response) => {
   try {
     const { term } = req.query;
-    const { uid } = req.decoded;
-    let notes = await NoteService.get(uid);
+    const { userId } = req.decoded;
+    let notes = await NoteService.get(userId);
     if (term && typeof term == "string") {
       notes = filterPeriod(notes, term);
     }

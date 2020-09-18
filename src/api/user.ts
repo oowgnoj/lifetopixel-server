@@ -6,8 +6,9 @@ const UserServiceInstance = new UserService();
 const userRouter = require("express").Router();
 userRouter.post("/register", async (req: Request, res: Response) => {
   try {
-    const result = await UserServiceInstance.register(req.body);
-    return res.status(200).json(result);
+    const { email, password, username } = req.body;
+    const user = await UserServiceInstance.register(email, password, username);
+    return res.status(200).json(user);
   } catch (error) {
     return res.status(401).send("존재하는 이메일 입니다.");
   }
@@ -15,7 +16,8 @@ userRouter.post("/register", async (req: Request, res: Response) => {
 
 userRouter.get("/login", async (req: Request, res: Response) => {
   try {
-    const user = await UserServiceInstance.login(req.body);
+    const { email, password } = req.body;
+    const user = await UserServiceInstance.login(email, password);
     res.cookie("x-access-token", user, { secure: true, httpOnly: true });
     return res.status(200).send(user);
   } catch (error) {

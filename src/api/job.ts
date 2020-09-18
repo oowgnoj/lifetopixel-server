@@ -9,8 +9,8 @@ jobRouter.post(
   "/",
   async (req: Request, res: Response) => {
     try {
-      const { uid } = req.decoded;
-      const day = await JobService.post(req.body, uid);
+      const { userId } = req.decoded;
+      const day = await JobService.post(req.body, userId);
       res.status(200).json(day);
     } catch (error) {
       res.status(500).send(error);
@@ -22,8 +22,8 @@ jobRouter.post(
 jobRouter.get("/", async (req: Request, res: Response) => {
   try {
     const { term } = req.query;
-    const { uid } = req.decoded;
-    let days = await JobService.get(uid);
+    const { userId } = req.decoded;
+    let days = await JobService.get(userId);
     if (term && typeof term == "string") {
       days = filterPeriod(days, term);
     }
