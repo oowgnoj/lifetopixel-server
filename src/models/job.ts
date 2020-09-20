@@ -28,12 +28,12 @@ const jobSchema = new mongoose.Schema(
   }
 );
 
-jobSchema.statics.create = async function (job: IJob) {
+jobSchema.statics.create = function (job: IJob) {
   return new this(job);
 };
 
-jobSchema.statics.findAllByUserId = async function (userId) {
-  return await this.find({
+jobSchema.statics.findAllByUserId = function (userId) {
+  return this.find({
     userId: userId,
   }).exec();
 };

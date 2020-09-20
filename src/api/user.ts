@@ -18,7 +18,13 @@ router.post("/login", async (req: Request, res: Response) => {
   try {
     const { email, password } = req.body;
     const user = await UserServiceInstance.login(email, password);
-    res.cookie("x-access-token", user, { secure: true, httpOnly: true });
+
+    res.cookie("x-access-token", user.token, {
+      secure: true,
+      httpOnly: false,
+      maxAge: 3600000,
+    });
+
     return res.status(200).send(user);
   } catch (error) {
     res.status(401).send(error.message);

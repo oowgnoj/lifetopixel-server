@@ -9,7 +9,8 @@ interface IDayService {
 
 const DayService: IDayService = {
   post: async (payload: IDay) => {
-    return await Day.create(payload);
+    const day = await Day.create(payload);
+    return day.save();
   },
   get: async (userId, term) => {
     if (!term) return Day.findAllByUserId(userId);

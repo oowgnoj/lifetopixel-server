@@ -1,9 +1,11 @@
 const jwt = require("jsonwebtoken");
+
 import { User } from "../models";
 
 export default (req, res, next) => {
   // read the token from header or url
-  const token = req.headers["x-access-token"] || req.query.token;
+
+  const token = req.headers["x-access-token"] || req.cookies.session;
   // token does not exist
   if (!token) {
     return res.status(403).json({
