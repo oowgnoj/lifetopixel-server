@@ -16,6 +16,7 @@ const noteSchema = new mongoose.Schema(
     summary: { type: String },
     detail: { type: String },
     tag: { type: Array },
+    urls: { type: Array },
     userId: { type: mongoose.Schema.Types.ObjectId, ref: "User" },
     job: { type: mongoose.Schema.Types.ObjectId, ref: "job" },
     field: { type: mongoose.Schema.Types.ObjectId, ref: "Field" },

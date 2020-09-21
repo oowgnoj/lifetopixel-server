@@ -31,7 +31,7 @@ export default (req, res, next) => {
   // if it has failed to verify, it will return an error message
   const onError = (error) => {
     res.status(403).json({
-      success: false,
+      hasError: true,
       message: error.message,
     });
   };

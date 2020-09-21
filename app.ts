@@ -3,7 +3,6 @@ require("dotenv").config();
 
 import express from "express";
 import AppRouter from "./src/api";
-const cookieParser = require("cookie-parser");
 var cors = require("cors");
 
 const mongoose = require("mongoose");
@@ -13,9 +12,6 @@ const PORT = process.env.PORT || 4500;
 
 // Static File Service
 app.use(express.static("public"));
-
-// cookie-parser
-app.use(cookieParser());
 
 // Body-parser
 app.use(bodyParser.urlencoded({ extended: true }));
