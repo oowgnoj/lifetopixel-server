@@ -1,5 +1,5 @@
 declare namespace Express {
   interface Request {
-    decoded: { uid: string; iad: number; exp: number };
+    decoded: { uid: string; iad: number; exp: number; userId: string };
   }
 }

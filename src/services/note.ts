@@ -1,21 +1,20 @@
 import { Note, User } from "../models";
 import { INote } from "../types";
+import { filterPeriod } from "../common/helper";
 
 interface INoteService {
-  post: (INote, uid) => void;
-  get: (email) => any;
+  post: (INote) => void;
+  get: (userId: string, term: string) => any;
 }
 // optinal type =[week, month, year]
 const NoteService: INoteService = {
-  post: async (payload: INote, email) => {
-    const { _id } = await User.findOneByEmail(email);
-    payload.userId = _id;
+  post: async (payload: INote) => {
     const note = await Note.create(payload);
     return note.save();
   },
-  get: async (email) => {
-    const { _id } = await User.findOneByEmail(email);
-    return Note.findAllByUserId(_id);
+  get: async (userId, term) => {
+    if (!term) return Note.findAllByUserId(userId);
+    return filterPeriod(await Note.findAllByUserId(userId), term);
   },
 };
 

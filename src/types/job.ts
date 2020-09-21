@@ -1,11 +1,12 @@
 export default interface IJob {
-  userId: string;
-  fieldIds: Array<number>;
-  noteId: number;
   name: string;
   category: string;
   type: "input" | "ouput";
+  memo: string;
   startTime: Date;
   endTime: Date;
   duration: number;
+  userId: string;
+  fieldIds: Array<number>;
+  noteId: number;
 }

@@ -5,7 +5,7 @@ import { IField } from "../types";
 
 type IFieldDocument = IField & mongoose.Document;
 interface IFieldModel extends mongoose.Model<IFieldDocument> {
-  findAllByUserId: (email) => IField[] | boolean;
+  findAllByUserId: (email) => IField[];
 }
 const fieldSchema = new mongoose.Schema(
   {
@@ -24,9 +24,9 @@ fieldSchema.statics.create = async function (field: IField) {
   return new this(field);
 };
 
-fieldSchema.statics.findAllByUserId = async function (email) {
+fieldSchema.statics.findAllByUserId = async function (userId) {
   return await this.find({
-    userId: email,
+    userId: userId,
   }).exec();
 };
 

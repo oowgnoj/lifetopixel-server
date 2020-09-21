@@ -1,21 +1,20 @@
 import { Day, User } from "../models";
 import { IDay } from "../types";
+import { filterPeriod } from "../common/helper";
 
 interface IDayService {
-  post: (payload: IDay, uid: string) => void;
-  get: (email: string) => any;
+  post: (payload: IDay) => void;
+  get: (userId: string, term: string) => any;
 }
-// optinal type =[week, month, year]
+
 const DayService: IDayService = {
-  post: async (payload: IDay, email) => {
-    const { _id } = await User.findOneByEmail(email);
-    payload.userId = _id;
+  post: async (payload: IDay) => {
     const day = await Day.create(payload);
     return day.save();
   },
-  get: async (email) => {
-    const { _id } = await User.findOneByEmail(email);
-    return Day.findAllByUserId(_id);
+  get: async (userId, term) => {
+    if (!term) return Day.findAllByUserId(userId);
+    return filterPeriod(await Day.findAllByUserId(userId), term);
   },
 };
 
