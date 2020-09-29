@@ -7,7 +7,7 @@ type IJobDocument = IJob & mongoose.Document;
 
 interface IJobModel extends mongoose.Model<IJobDocument> {
   create: (job) => any;
-  findAllByUserId: (email) => IJob[] | boolean;
+  findAllByUserId: (userId: string) => IJob[];
 }
 
 // Define Schemes
@@ -19,6 +19,7 @@ const jobSchema = new mongoose.Schema(
     startTime: { type: Date },
     endTime: { type: Date },
     duration: { type: Number }, // 시간 단위
+    memo: { type: String }, // 시간 단위
     userId: { type: mongoose.Schema.Types.ObjectId, ref: "User" },
     field: { type: mongoose.Schema.Types.ObjectId, ref: "Field" },
     note: { type: mongoose.Schema.Types.ObjectId, ref: "Note" },
@@ -28,13 +29,13 @@ const jobSchema = new mongoose.Schema(
   }
 );
 
-jobSchema.statics.create = async function (job: IJob) {
+jobSchema.statics.create = function (job: IJob) {
   return new this(job);
 };
 
-jobSchema.statics.findAllByUserId = async function (email) {
-  return await this.find({
-    userId: email,
+jobSchema.statics.findAllByUserId = function (userId) {
+  return this.find({
+    userId: userId,
   }).exec();
 };
 

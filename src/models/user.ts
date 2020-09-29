@@ -16,7 +16,7 @@ const userSchema = new mongoose.Schema(
   {
     email: { type: String },
     username: { type: String },
-    password: { type: String },
+    password: { type: String, select: false }
   },
   {
     timestamps: true,
@@ -42,7 +42,7 @@ userSchema.statics.findOneByEmail = async function (email) {
 userSchema.statics.validatePassword = async function (email, password) {
   const user = await this.findOne({
     email,
-  }).exec();
+  }).select('+password').exec();
   return user.password == password ? user : false;
 };
 // Create Model & Export
