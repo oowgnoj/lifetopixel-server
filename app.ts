@@ -3,11 +3,11 @@ require("dotenv").config();
 
 import express from "express";
 import AppRouter from "./src/api";
+import { Day } from "./src/models";
 const mongoose = require("mongoose");
 const bodyParser = require("body-parser");
 const app = express();
 const PORT = process.env.PORT || 4500;
-
 // Static File Service
 app.use(express.static("public"));
 // Body-parser
@@ -29,6 +29,10 @@ mongoose
 app.set("jwt-secret", process.env.TOKEN_SECRET);
 app.use(AppRouter);
 
+app.get("/test/abcde", async (req, res) => {
+  const day = await Day.find({}).exec();
+  res.json(day);
+});
 app.listen(PORT, () => {
   console.log(`⚡️[server]: Server is running at https://localhost:${PORT}`);
 });
