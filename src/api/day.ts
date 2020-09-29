@@ -8,8 +8,10 @@ router.post(
   async (req: Request, res: Response) => {
     try {
       const day = await DayService.post(req.body);
+      console.log(day);
       res.status(200).json(day);
     } catch (error) {
+      console.log(error);
       res.status(500).send(error.message);
     }
   },

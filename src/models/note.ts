@@ -34,5 +34,6 @@ noteSchema.statics.findAllByUserId = async function (userId) {
     userId: userId,
   }).exec();
 };
+
 // Create Model & Export
 export default mongoose.model<INoteDocument, INoteModel>("Note", noteSchema);

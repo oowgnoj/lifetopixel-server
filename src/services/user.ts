@@ -6,6 +6,7 @@ require("dotenv").config();
 
 interface IUserService {
   register: (email, password, username) => any;
+  getUser: (email,) => any;
   login: (email, password) => any;
   checkUserExist: (email: string) => any;
 }
@@ -15,6 +16,15 @@ export default class UserService implements IUserService {
     await this.checkUserExist(email);
     const user = User.insert(email, password, username);
     return user;
+  }
+
+  public async getUser(email) {
+    const user = await User.findOneByEmail(email);
+    if (user){
+      return user
+    }else{
+      return null;
+    }
   }
 
   public async checkUserExist(email) {
