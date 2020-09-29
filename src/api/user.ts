@@ -6,6 +6,9 @@ const UserServiceInstance = new UserService();
 
 const router = require("express").Router();
 
+router.get("test", (req, res) => {
+  return res.status(200).json({ hi: "hello" });
+});
 router.get("/user", authMiddleWare, async (req: Request, res: Response) => {
   try {
     const user = await UserServiceInstance.getUser(req.decoded.uid);
@@ -24,7 +27,6 @@ router.post("/register", async (req: Request, res: Response) => {
     return res.status(401).send(error.message);
   }
 });
-
 
 router.post("/login", async (req: Request, res: Response) => {
   try {
