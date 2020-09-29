@@ -33,17 +33,10 @@ mongoose
   .then(() => console.log("Successfully connected to mongodb"))
   .catch((e: Error) => console.error(e));
 
-app.get("/test", (request, response) => {
-  response.send("성공");
-});
 // jwt
 app.set("jwt-secret", process.env.TOKEN_SECRET);
 app.use(AppRouter);
 
-app.get("/test/abcde", async (req, res) => {
-  const day = await Day.find({}).exec();
-  res.json(day);
-});
 app.listen(PORT, () => {
   console.log(`⚡️[server]: Server is running at https://localhost:${PORT}`);
 });

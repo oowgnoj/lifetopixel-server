@@ -8,7 +8,7 @@ import authMiddleWare from "../middleware/authorization";
 
 const AppRouter: express.Router = express.Router();
 AppRouter.use("/", userRouter);
-// AppRouter.use("/", authMiddleWare);
+AppRouter.use("/", authMiddleWare);
 AppRouter.use("/day", dayRouter);
 AppRouter.use("/job", jobRouter);
 AppRouter.use("/field", fieldRouter);
