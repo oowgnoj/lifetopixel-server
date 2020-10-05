@@ -6,7 +6,7 @@ require("dotenv").config();
 
 interface IUserService {
   register: (email, password, username) => any;
-  getUser: (email,) => any;
+  getUser: (email) => any;
   login: (email, password) => any;
   checkUserExist: (email: string) => any;
 }
@@ -20,9 +20,9 @@ export default class UserService implements IUserService {
 
   public async getUser(email) {
     const user = await User.findOneByEmail(email);
-    if (user){
-      return user
-    }else{
+    if (user) {
+      return user;
+    } else {
       return null;
     }
   }
@@ -50,7 +50,6 @@ export default class UserService implements IUserService {
     const exp = new Date(today);
     exp.setDate(today.getDate() + 60);
     return jwt.sign({ uid: email }, process.env.TOKEN_SECRET, {
-      expiresIn: 60 * 60 * 24,
       algorithm: "HS256",
     });
   }

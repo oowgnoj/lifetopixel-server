@@ -3,7 +3,6 @@ require("dotenv").config();
 
 import express from "express";
 import AppRouter from "./src/api";
-import { Day } from "./src/models";
 const mongoose = require("mongoose");
 const bodyParser = require("body-parser");
 const app = express();

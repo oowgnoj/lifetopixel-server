@@ -1,14 +1,12 @@
 import express, { Request, Response } from "express";
 import UserService from "../services/user";
 import authMiddleWare from "../middleware/authorization";
+const bcrypt = require("bcrypt");
 
 const UserServiceInstance = new UserService();
 
 const router = require("express").Router();
 
-router.get("test", (req, res) => {
-  return res.status(200).json({ hi: "hello" });
-});
 router.get("/user", authMiddleWare, async (req: Request, res: Response) => {
   try {
     const user = await UserServiceInstance.getUser(req.decoded.uid);
