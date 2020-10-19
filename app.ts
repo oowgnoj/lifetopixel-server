@@ -1,41 +1,21 @@
 // ENV
-require("dotenv").config();
 
-import express from "express";
-import AppRouter from "./src/api";
-const mongoose = require("mongoose");
-const bodyParser = require("body-parser");
-const app = express();
-const cors = require("cors");
-const PORT = process.env.PORT || 4500;
-// Static File Service
-app.use(express.static("public"));
+import "reflect-metadata";
+import { createConnection } from "typeorm";
+import User from "./src/entity/User";
 
-// Body-parser
-app.use(bodyParser.urlencoded({ extended: true }));
-app.use(bodyParser.json());
-
-app.use(
-  cors({
-    origin: true,
-    credentials: true,
+createConnection({
+  type: "mysql",
+  host: "database-1.cih6sdb1qpsb.ap-northeast-2.rds.amazonaws.com",
+  port: 3306,
+  username: "root",
+  password: "qkrwhddn423",
+  database: "test",
+  entities: [User],
+  synchronize: true,
+  logging: false,
+})
+  .then((connection) => {
+    // here you can start to work with your entities
   })
-); // Node.js의 native Promise 사용
-mongoose.Promise = global.Promise;
-
-// CONNECT TO MONGODB SERVER
-mongoose
-  .connect(process.env.MONGO_URI, {
-    useNewUrlParser: true,
-    useUnifiedTopology: true,
-  })
-  .then(() => console.log("Successfully connected to mongodb"))
-  .catch((e: Error) => console.error(e));
-
-// jwt
-app.set("jwt-secret", process.env.TOKEN_SECRET);
-app.use(AppRouter);
-
-app.listen(PORT, () => {
-  console.log(`⚡️[server]: Server is running at https://localhost:${PORT}`);
-});
+  .catch((error) => console.log(error));
