@@ -3,3 +3,4 @@ declare namespace Express {
     decoded: { uid: string; iad: number; exp: number; userId: string };
   }
 }
+
