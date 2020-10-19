@@ -1,21 +1,16 @@
-// import { Job, User } from "../models";
-// import { IJob } from "../types";
-// import { filterPeriod } from "../common/helper";
+import { getRepository } from "typeorm";
+import { Job } from "../entity";
 
-// interface IJobService {
-//   post: (IJob) => void;
-//   get: (userId: string, term: string) => any;
-// }
-// // optinal type =[week, month, year]
-// const JobService: IJobService = {
-//   post: async (payload: IJob) => {
-//     const job = await Job.create(payload);
-//     return job.save();
-//   },
-//   get: async (userId, term) => {
-//     if (!term) return Job.findAllByUserId(userId);
-//     return filterPeriod(await Job.findAllByUserId(userId), term);
-//   },
-// };
+// optinal type =[week, month, year]
+const JobService = {
+  post: async (payload: Job) => {
+    const job = await getRepository(Job).create(payload);
+    const results = await getRepository(Job).save(job);
+    return results;
+  },
+  get: async (userId, term) => {
+    return await getRepository(Job).find({ user: userId });
+  },
+};
 
-// export default JobService;
+export default JobService;

@@ -12,47 +12,39 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.Day = void 0;
+exports.Job = void 0;
 const typeorm_1 = require("typeorm");
 const User_1 = __importDefault(require("./User"));
-let Day = class Day {
+let Job = class Job {
 };
 __decorate([
     typeorm_1.PrimaryGeneratedColumn(),
     __metadata("design:type", Number)
-], Day.prototype, "id", void 0);
+], Job.prototype, "id", void 0);
 __decorate([
     typeorm_1.Column(),
     __metadata("design:type", String)
-], Day.prototype, "goodThing", void 0);
+], Job.prototype, "title", void 0);
 __decorate([
     typeorm_1.Column(),
     __metadata("design:type", String)
-], Day.prototype, "badThing", void 0);
+], Job.prototype, "description", void 0);
 __decorate([
     typeorm_1.Column(),
     __metadata("design:type", String)
-], Day.prototype, "goalTomorrow", void 0);
+], Job.prototype, "score", void 0);
 __decorate([
-    typeorm_1.Column(),
-    __metadata("design:type", String)
-], Day.prototype, "mainActivity", void 0);
-__decorate([
-    typeorm_1.Column(),
-    __metadata("design:type", String)
-], Day.prototype, "score", void 0);
-__decorate([
-    typeorm_1.ManyToOne(type => User_1.default, user => user.days),
+    typeorm_1.ManyToOne(type => User_1.default, user => user.id),
     typeorm_1.JoinColumn(),
     __metadata("design:type", User_1.default)
-], Day.prototype, "user", void 0);
+], Job.prototype, "user", void 0);
 __decorate([
-    typeorm_1.Column({ type: "timestamp", default: () => "NOW()" }),
+    typeorm_1.Column({ type: 'timestamp' }),
     __metadata("design:type", Date)
-], Day.prototype, "registeredAt", void 0);
-Day = __decorate([
+], Job.prototype, "registeredAt", void 0);
+Job = __decorate([
     typeorm_1.Entity()
-], Day);
-exports.Day = Day;
-exports.default = Day;
-//# sourceMappingURL=Day.js.map
+], Job);
+exports.Job = Job;
+exports.default = Job;
+//# sourceMappingURL=Job.js.map

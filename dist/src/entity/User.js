@@ -20,7 +20,7 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
 var __importStar = (this && this.__importStar) || function (mod) {
     if (mod && mod.__esModule) return mod;
     var result = {};
-    if (mod != null) for (var k in mod) if (Object.hasOwnProperty.call(mod, k)) __createBinding(result, mod, k);
+    if (mod != null) for (var k in mod) if (k !== "default" && Object.hasOwnProperty.call(mod, k)) __createBinding(result, mod, k);
     __setModuleDefault(result, mod);
     return result;
 };
@@ -29,50 +29,56 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.User = void 0;
-require('dotenv').config();
+require("dotenv").config();
 const typeorm_1 = require("typeorm");
 const bcrypt = __importStar(require("bcrypt"));
 const Day_1 = require("./Day");
-let User = (() => {
-    let User = class User extends typeorm_1.BaseEntity {
-        async hashpPassword() {
-            this.password = await bcrypt.hash(this.password, process.env.KEY);
-        }
-        async comparePassword(candidatePassword) {
-            return await bcrypt.compare(candidatePassword, this.password);
-        }
-    };
-    __decorate([
-        typeorm_1.PrimaryGeneratedColumn(),
-        __metadata("design:type", Number)
-    ], User.prototype, "id", void 0);
-    __decorate([
-        typeorm_1.Column(),
-        __metadata("design:type", String)
-    ], User.prototype, "email", void 0);
-    __decorate([
-        typeorm_1.Column(),
-        __metadata("design:type", String)
-    ], User.prototype, "password", void 0);
-    __decorate([
-        typeorm_1.Column(),
-        __metadata("design:type", String)
-    ], User.prototype, "userName", void 0);
-    __decorate([
-        typeorm_1.OneToMany(type => Day_1.Day, day => day.user),
-        __metadata("design:type", Array)
-    ], User.prototype, "days", void 0);
-    __decorate([
-        typeorm_1.BeforeInsert(),
-        __metadata("design:type", Function),
-        __metadata("design:paramtypes", []),
-        __metadata("design:returntype", Promise)
-    ], User.prototype, "hashpPassword", null);
-    User = __decorate([
-        typeorm_1.Entity()
-    ], User);
-    return User;
-})();
+const Job_1 = require("./Job");
+let User = class User extends typeorm_1.BaseEntity {
+    async hashpPassword() {
+        this.password = await bcrypt.hash(this.password, process.env.KEY);
+    }
+    async comparePassword(candidatePassword) {
+        return await bcrypt.compare(candidatePassword, this.password);
+    }
+};
+__decorate([
+    typeorm_1.PrimaryGeneratedColumn(),
+    __metadata("design:type", Number)
+], User.prototype, "id", void 0);
+__decorate([
+    typeorm_1.Column(),
+    __metadata("design:type", String)
+], User.prototype, "email", void 0);
+__decorate([
+    typeorm_1.Column(),
+    __metadata("design:type", String)
+], User.prototype, "password", void 0);
+__decorate([
+    typeorm_1.Column(),
+    __metadata("design:type", String)
+], User.prototype, "userName", void 0);
+__decorate([
+    typeorm_1.OneToMany((type) => Day_1.Day, (day) => day.user),
+    __metadata("design:type", Array)
+], User.prototype, "days", void 0);
+__decorate([
+    typeorm_1.OneToMany((type) => Job_1.Job, (job) => job.user),
+    __metadata("design:type", Array)
+], User.prototype, "jobs", void 0);
+__decorate([
+    typeorm_1.Column({ type: "timestamp", default: () => "NOW()" }),
+    __metadata("design:type", Date)
+], User.prototype, "registeredAt", void 0);
+__decorate([
+    typeorm_1.BeforeInsert(),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", []),
+    __metadata("design:returntype", Promise)
+], User.prototype, "hashpPassword", null);
+User = __decorate([
+    typeorm_1.Entity()
+], User);
 exports.User = User;
 exports.default = User;
 //# sourceMappingURL=User.js.map

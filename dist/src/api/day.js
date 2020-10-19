@@ -18,9 +18,9 @@ router.post("/", async (req, res) => {
 }, authorization_1.default);
 router.get("/", async (req, res) => {
     try {
-        console.log(req);
+        const { userId } = req.decoded;
         const term = req.query.term;
-        const days = await day_1.default.get(1, term);
+        const days = await day_1.default.get(userId, term);
         res.status(200).json(days);
     }
     catch (error) {

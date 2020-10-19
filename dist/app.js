@@ -7,7 +7,7 @@ require("reflect-metadata");
 const typeorm_1 = require("typeorm");
 const express_1 = __importDefault(require("express"));
 const api_1 = __importDefault(require("./src/api"));
-typeorm_1.createConnection().then(connection => {
+typeorm_1.createConnection().then((connection) => {
     const app = express_1.default();
     app.use(express_1.default.json());
     app.use(api_1.default);

@@ -18,8 +18,9 @@ router.post(
 
 router.get("/", async (req, res) => {
   try {
+    const { id } = req.decoded;
     const term = req.query.term as string;
-    const days = await DayService.get(1, term);
+    const days = await DayService.get(id, term);
     res.status(200).json(days);
   } catch (error) {
     res.status(404).send({ err: "day not found" });
