@@ -2,6 +2,7 @@ require('dotenv').config()
 import { Entity, Column, PrimaryGeneratedColumn, OneToMany ,BaseEntity, BeforeInsert} from "typeorm";
 import * as bcrypt from 'bcrypt'
 import {Day} from './Day'
+import {Job} from './Job'
 
 @Entity()
 export class User extends BaseEntity {
@@ -19,6 +20,13 @@ export class User extends BaseEntity {
   
   @OneToMany(type => Day, day => day.user)
   days: Day[]
+
+  @OneToMany(type => Job, job => job.user)
+  jobs: Job[]
+  
+  @Column({ type: "timestamp", default: () => "NOW()"})
+  registeredAt: Date;
+
 
   @BeforeInsert()
   async hashpPassword (): Promise<void> {

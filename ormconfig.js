@@ -8,5 +8,6 @@ module.exports = {
   "database": process.env.DB_NAME,
   "entities": ["src/entity/*.ts"],
   "logging": true,
-  "synchronize": true
+  "synchronize": true,
+  "timezone": 'Z'
 }

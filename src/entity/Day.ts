@@ -25,7 +25,7 @@ export class Day {
   @JoinColumn()
   user: User;
 
-  @Column({ type: 'timestamp' })
+  @Column({ type: "timestamp", default: () => "NOW()"})
   registeredAt: Date;
 
 }

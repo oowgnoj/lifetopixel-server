@@ -12,6 +12,7 @@ import Day from '../entity/Day'
 import { IDay } from "../types";
 import { filterPeriod } from "../common/helper";
 
+
 const DayService = {
   post: async (payload: Day) => {
     const day = await getRepository(Day).create(payload);
@@ -20,7 +21,6 @@ const DayService = {
   },
   get: async (userId, term) => {
     return await getRepository(Day).find({user:userId})
-    // return filterPeriod(await Day.findAllByUserId(userId), term);
   },
 };
 

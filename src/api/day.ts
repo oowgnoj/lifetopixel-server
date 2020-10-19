@@ -5,7 +5,7 @@ const router: express.Router = express.Router();
 
 router.post(
   "/",
-  async (req: Request, res: Response) => {
+  async (req, res) => {
     try {
       const day = await DayService.post(req.body);
       res.status(200).json(day);
@@ -16,10 +16,8 @@ router.post(
   authMiddleWare
 );
 
-router.get("/", async (req: Request, res: Response) => {
+router.get("/", async (req, res) => {
   try {
-    // console.log(req.decoded)
-    const { userId } = req.decoded;
     const term = req.query.term as string;
     const days = await DayService.get(1, term);
     res.status(200).json(days);
