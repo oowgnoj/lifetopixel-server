@@ -1,20 +1,15 @@
-import { Day, User } from "../models";
-import { IDay } from "../types";
-import { filterPeriod } from "../common/helper";
+import { getRepository } from "typeorm";
 
-interface IDayService {
-  post: (payload: IDay) => void;
-  get: (userId: string, term: string) => any;
-}
+import Day from "../entity/Day";
 
-const DayService: IDayService = {
-  post: async (payload: IDay) => {
-    const day = await Day.create(payload);
-    return day.save();
+const DayService = {
+  post: async (payload: Day) => {
+    const day = await getRepository(Day).create(payload);
+    const results = await getRepository(Day).save(day);
+    return results;
   },
   get: async (userId, term) => {
-    if (!term) return Day.findAllByUserId(userId);
-    return filterPeriod(await Day.findAllByUserId(userId), term);
+    return await getRepository(Day).find({ user: userId });
   },
 };
 

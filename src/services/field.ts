@@ -1,21 +1,15 @@
-import { Field, User } from "../models";
-import { IField } from "../types";
-import { filterPeriod } from "../common/helper";
+import { getRepository } from "typeorm";
 
-interface IFieldService {
-  post: (field: IField) => void;
-  get: (userId: string, term: string) => any;
-}
-// optinal type =[week, month, year]
-const FieldService: IFieldService = {
-  post: async (payload: IField) => {
-    const field = await Field.create(payload);
-    return field.save();
+import { Field } from "../entity";
+
+const FieldService = {
+  post: async (payload: Field) => {
+    const field = await getRepository(Field).create(payload);
+    const results = await getRepository(Field).save(field);
+    return results;
   },
-
   get: async (userId, term) => {
-    if (!term) return Field.findAllByUserId(userId);
-    return filterPeriod(await Field.findAllByUserId(userId), term);
+    return await getRepository(Field).find({ user: userId });
   },
 };
 

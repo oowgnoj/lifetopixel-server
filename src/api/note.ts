@@ -21,8 +21,8 @@ router.post(
 router.get("/", async (req: Request, res: Response) => {
   try {
     const term = req.query.term as string;
-    const { userId } = req.decoded;
-    let notes = await NoteService.get(userId, term);
+    const { id } = req.decoded;
+    let notes = await NoteService.get(id, term);
     res.status(200).json(notes);
   } catch (error) {
     res.status(400).send(error.message);

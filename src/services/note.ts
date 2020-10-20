@@ -1,20 +1,15 @@
-import { Note, User } from "../models";
-import { INote } from "../types";
-import { filterPeriod } from "../common/helper";
+import { getRepository } from "typeorm";
+import { Note } from "../entity";
 
-interface INoteService {
-  post: (INote) => void;
-  get: (userId: string, term: string) => any;
-}
 // optinal type =[week, month, year]
-const NoteService: INoteService = {
-  post: async (payload: INote) => {
-    const note = await Note.create(payload);
-    return note.save();
+const NoteService = {
+  post: async (payload: Note) => {
+    const note = await getRepository(Note).create(payload);
+    const results = await getRepository(Note).save(note);
+    return results;
   },
   get: async (userId, term) => {
-    if (!term) return Note.findAllByUserId(userId);
-    return filterPeriod(await Note.findAllByUserId(userId), term);
+    return await getRepository(Note).find({ user: userId });
   },
 };
 

@@ -19,9 +19,9 @@ router.post(
 
 router.get("/", async (req: Request, res: Response) => {
   try {
+    const { id } = req.decoded;
     const term = req.query.term as string;
-    const { userId } = req.decoded;
-    let days = await FieldService.get(userId, term);
+    let days = await FieldService.get(id, term);
     res.status(200).json(days);
   } catch (error) {
     res.status(400).send(error.message);

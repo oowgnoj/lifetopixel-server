@@ -1,9 +1,14 @@
+require("dotenv").config();
 const jwt = require("jsonwebtoken");
 
-import { User } from "../models";
+import { User } from "../entity/User";
 
-export default (req, res, next) => {
+export default async (req, res, next) => {
   // read the token from header or url
+
+  const authCheck = async (token) => {
+    return await jwt.verify(token, process.env.TOKEN_SECRET);
+  };
 
   const token = req.headers["x-access-token"];
   // token does not exist
@@ -14,38 +19,28 @@ export default (req, res, next) => {
     });
   }
 
-  // create a promise that decodes the token
-  const p = new Promise((resolve, reject) => {
-    jwt.verify(token, req.app.get("jwt-secret"), (err, decoded) => {
-      if (err) reject(err);
-      resolve(decoded);
-    });
-  });
-
-  const getUidFromEmail = (decoded) => {
-    return new Promise((resolve, reject) => {
-      const email = decoded.uid;
-      resolve(User.findOneByEmail(email));
-    });
-  };
-
-  // if it has failed to verify, it will return an error message
-  const onError = (error) => {
+  try {
+    // @ts-ignore
+    const decoded = await authCheck(token);
+    const userInfo = await User.findOne({ email: decoded.uid });
+    req.decoded = userInfo;
+    if (req.method === "POST") {
+      req.body.decoded = userInfo;
+    }
+    next();
+  } catch (error) {
     res.status(403).json({
       hasError: true,
       message: error.message,
     });
-  };
-
-  // process the promise
-  p.then((decoded: any) => {
-    getUidFromEmail(decoded).then((user: any) => {
-      decoded.userId = user._id;
-      req.decoded = decoded;
-      if (req.method === "POST") {
-        req.body.userId = user._id;
-      }
-      next();
-    });
-  }).catch(onError);
+  }
 };
+
+// declare namespace
+declare global {
+  namespace Express {
+    interface Request {
+      decoded: User;
+    }
+  }
+}

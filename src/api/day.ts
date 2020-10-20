@@ -1,28 +1,26 @@
 import express, { Request, Response, Router } from "express";
-import { DayService } from "../services";
+import DayService from "../services/day";
 import authMiddleWare from "../middleware/authorization";
 const router: express.Router = express.Router();
 
 router.post(
   "/",
-  async (req: Request, res: Response) => {
+  async (req, res) => {
     try {
       const day = await DayService.post(req.body);
-      console.log(day);
       res.status(200).json(day);
     } catch (error) {
-      console.log(error);
       res.status(500).send(error.message);
     }
   },
   authMiddleWare
 );
 
-router.get("/", async (req: Request, res: Response) => {
+router.get("/", async (req, res) => {
   try {
-    const { userId } = req.decoded;
+    const { id } = req.decoded;
     const term = req.query.term as string;
-    const days = await DayService.get(userId, term);
+    const days = await DayService.get(id, term);
     res.status(200).json(days);
   } catch (error) {
     res.status(404).send({ err: "day not found" });

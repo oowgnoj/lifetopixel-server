@@ -1,41 +1,43 @@
-// ENV
-require("dotenv").config();
-
+import "reflect-metadata";
+import { createConnection } from "typeorm";
+import { Request, Response } from "express";
 import express from "express";
+import * as bodyParser from "body-parser";
+import * as logger from "morgan";
 import AppRouter from "./src/api";
-const mongoose = require("mongoose");
-const bodyParser = require("body-parser");
-const app = express();
-const cors = require("cors");
-const PORT = process.env.PORT || 4500;
-// Static File Service
-app.use(express.static("public"));
+import { User } from "./src/entity/User";
+import { Day } from "./src/entity/Day";
 
-// Body-parser
-app.use(bodyParser.urlencoded({ extended: true }));
-app.use(bodyParser.json());
+// create typeorm connection
+createConnection().then((connection) => {
+  // create and setup express app
+  const app = express();
+  app.use(express.json());
+  app.use(AppRouter);
+  // register routes
 
-app.use(
-  cors({
-    origin: true,
-    credentials: true,
-  })
-); // Node.js의 native Promise 사용
-mongoose.Promise = global.Promise;
+  // app.get("/users", async function(req: Request, res: Response) {
+  //     const users = await userRepository.find();
+  //     res.json(users);
+  // });
 
-// CONNECT TO MONGODB SERVER
-mongoose
-  .connect(process.env.MONGO_URI, {
-    useNewUrlParser: true,
-    useUnifiedTopology: true,
-  })
-  .then(() => console.log("Successfully connected to mongodb"))
-  .catch((e: Error) => console.error(e));
+  // app.post("/users", async function(req: Request, res: Response) {
+  //     const user = await userRepository.create(req.body);
+  //     const results = await userRepository.save(user);
+  //     return res.send(results);
+  // });
 
-// jwt
-app.set("jwt-secret", process.env.TOKEN_SECRET);
-app.use(AppRouter);
+  // app.get("/days", async function(req: Request, res: Response) {
+  //     const days = await dayRepository.find({ relations: ["user"] })
+  //     res.json(days);
+  // });
 
-app.listen(PORT, () => {
-  console.log(`⚡️[server]: Server is running at https://localhost:${PORT}`);
+  // app.post("/days", async function(req: Request, res: Response) {
+  // const day = await dayRepository.create(req.body);
+  // const results = await dayRepository.save(day);
+  // return res.send(results);
+  // });
+
+  // start express server
+  app.listen(5000);
 });
