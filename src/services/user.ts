@@ -26,14 +26,14 @@ export const login = async (email, password) => {
 
   if (user) {
     const token: String = generateToken(email);
-    return { user, token };
+    return { token };
   } else {
     throw new Error("회원정보를 확인해주세요.");
   }
 };
 
-export const getByEmail = async (email) => {
-  const user = await User.findOne({ email });
+export const get = async (id) => {
+  const user = await User.findOne({id});
   if (!user) {
     throw new Error("회원 정보를 확인해주세요.");
   }

@@ -5,10 +5,8 @@ import jobRouter from "./Job";
 import fieldRouter from "./Field";
 import noteRouter from "./Note";
 
-import authMiddleWare from "../middleware/authorization";
 
 const AppRouter: express.Router = express.Router();
-AppRouter.use("/", authMiddleWare);
 AppRouter.use("/", userRouter);
 AppRouter.use("/day", dayRouter);
 AppRouter.use("/job", jobRouter);

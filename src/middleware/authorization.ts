@@ -25,7 +25,7 @@ export default async (req, res, next) => {
     const userInfo = await User.findOne({ email: decoded.uid });
     req.decoded = userInfo;
     if (req.method === "POST") {
-      req.body.decoded = userInfo;
+      req.body.user = userInfo.id;
     }
     next();
   } catch (error) {
