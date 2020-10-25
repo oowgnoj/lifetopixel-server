@@ -7,7 +7,7 @@ import * as logger from "morgan";
 import AppRouter from "./src/api";
 const cors = require("cors");
 
-const PORT = process.env.PORT
+const PORT = process.env.PORT || 4500
 // create typeorm connection
 createConnection().then((connection) => {
   // create and setup express app
