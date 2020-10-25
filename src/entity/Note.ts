@@ -25,18 +25,18 @@ export class Note extends BaseEntity {
   @Column()
   detail: string;
 
-  @ManyToMany((type) => Tag)
-  @JoinColumn()
-  tags: Tag[];
-
   @Column()
   reference: string;
 
+  @ManyToMany((type) => Tag)
+  @JoinColumn()
+  tags: Tag[];
+  
   @ManyToOne((type) => User, (user) => user.id)
   @JoinColumn()
   user: User;
 
-  @Column({ type: "timestamp" })
+  @Column({ type: "timestamp", default: () => "NOW()"})
   registeredAt: Date;
 }
 
