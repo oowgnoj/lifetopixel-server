@@ -4,7 +4,7 @@ import authMiddleWare from "../middleware/authorization";
 import { filterPeriod } from "../common/helper";
 
 const router: express.Router = express.Router();
-
+router.use(authMiddleWare);
 router.post(
   "/",
   async (req: Request, res: Response) => {
@@ -14,8 +14,7 @@ router.post(
     } catch (error) {
       res.status(500).send(error.message);
     }
-  },
-  authMiddleWare
+  }
 );
 
 router.get("/", async (req: Request, res: Response) => {

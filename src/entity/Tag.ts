@@ -17,16 +17,7 @@ export class Tag {
 
   @Column()
   name: string;
-
-  @Column()
-  goalTomorrow: string;
-
-  @Column()
-  mainActivity: string;
-
-  @Column()
-  score: string;
-
+  
   @ManyToOne((type) => User, (user) => user.days)
   @JoinColumn()
   user: User;
