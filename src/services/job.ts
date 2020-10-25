@@ -8,8 +8,12 @@ const JobService = {
     const results = await getRepository(Job).save(job);
     return results;
   },
+
   get: async (userId) => {
-    return await getRepository(Job).find({relations: ['note'], where: { user: userId}});
+    return await getRepository(Job).find({
+      relations: ["note"],
+      where: { user: userId },
+    });
   },
 };
 

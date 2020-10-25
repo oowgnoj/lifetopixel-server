@@ -33,7 +33,7 @@ export const login = async (email, password) => {
 };
 
 export const get = async (id) => {
-  const user = await User.findOne({id});
+  const user = await User.findOne({ id });
   if (!user) {
     throw new Error("회원 정보를 확인해주세요.");
   }
