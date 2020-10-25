@@ -5,9 +5,9 @@ import express from "express";
 import * as bodyParser from "body-parser";
 import * as logger from "morgan";
 import AppRouter from "./src/api";
-
 const cors = require("cors");
 
+const PORT = process.env.PORT
 // create typeorm connection
 createConnection().then((connection) => {
   // create and setup express app
@@ -19,5 +19,5 @@ createConnection().then((connection) => {
   app.use(AppRouter);
   app.set("jwt-secret", process.env.TOKEN_SECRET);
 
-  app.listen(5000);
+  app.listen(PORT);
 });
