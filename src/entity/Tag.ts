@@ -2,7 +2,7 @@ import {
   Entity,
   Column,
   PrimaryGeneratedColumn,
-  OneToMany,
+  JoinTable,
   ManyToOne,
   JoinColumn,
   ManyToMany,
@@ -22,9 +22,8 @@ export class Tag {
   @JoinColumn()
   user: User;
 
-  @ManyToMany((type) => Note)
-  @JoinColumn()
-  Notes: Note[];
+  @ManyToMany((type) => Note, note => note.tags)
+  notes: Note[];
 
   @Column({ type: "timestamp", default: () => "NOW()" })
   registeredAt: Date;

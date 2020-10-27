@@ -1,12 +1,14 @@
 import { getRepository } from "typeorm";
 import { Note } from "../entity";
+import { TagService } from "../services";
 
-// optinal type =[week, month, year]
+
 const NoteService = {
-  post: async (payload: Note) => {
+  post: async (payload, user: number) => {
+    const tags = await TagService.getTags(payload.tags)
+    payload.tags = tags
     const note = await getRepository(Note).create(payload);
-    const results = await getRepository(Note).save(note);
-    return results;
+    return await getRepository(Note).save(note);
   },
   get: async (userId, term) => {
     return await getRepository(Note).find({ user: userId });

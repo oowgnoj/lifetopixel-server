@@ -7,7 +7,7 @@ import * as logger from "morgan";
 import AppRouter from "./src/api";
 const cors = require("cors");
 
-const PORT = process.env.PORT || 4500
+const PORT = process.env.PORT || 5000
 // create typeorm connection
 createConnection().then((connection) => {
   // create and setup express app
@@ -19,5 +19,5 @@ createConnection().then((connection) => {
   app.use(AppRouter);
   app.set("jwt-secret", process.env.TOKEN_SECRET);
 
-  app.listen(PORT);
+  app.listen(PORT, ()=> console.log('running server on', PORT));
 });

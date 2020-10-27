@@ -7,6 +7,7 @@ import {
   JoinColumn,
   BaseEntity,
   ManyToMany,
+  JoinTable,
 } from "typeorm";
 import { User } from "./User";
 import { Tag } from "./Tag";
@@ -28,10 +29,11 @@ export class Note extends BaseEntity {
   @Column()
   reference: string;
 
-  @ManyToMany((type) => Tag)
-  @JoinColumn()
-  tags: Tag[];
   
+  @ManyToMany((type) => Tag, tag => tag.notes, {eager: true})
+  @JoinTable()
+  tags: Tag[] ;
+
   @ManyToOne((type) => User, (user) => user.id)
   @JoinColumn()
   user: User;
