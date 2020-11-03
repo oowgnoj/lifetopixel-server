@@ -1,34 +1,25 @@
-
 import { getRepository, getConnection } from "typeorm";
 import { Tag } from "../entity";
 
-//   @Column()
-// name: string;
-  
-// @ManyToOne((type) => User, (user) => user.days)
-// @JoinColumn()
-// user: User;
-
-// @ManyToMany((type) => Note, note => note.tags)
-// @JoinTable()
-// notes: Note[];
-
-// optinal type =[week, month, year]
 const TagService = {
-  post: async (payload: Tag) => {
+  post: async (payload) => {
     const tag = await getRepository(Tag).create(payload);
-    const results = await getRepository(Tag).save(tag);
-    return results;
+    return await getRepository(Tag).save(tag);
   },
+
   get: async (user, term) => {
     return await getRepository(Tag).find({ user });
   },
 
-  getTags: async (tags: number[])=> {
-    return await Promise.all(tags.map(async (tag) => {
-      return await getRepository(Tag).findOne({id: tag})
-    }));
-  }
+  getOrCreate: async (tags, user) => {
+    return await Promise.all(
+      tags.map(async (tag) => {
+        return await getRepository(Tag)
+          .findOneOrFail({ id: tag })
+          .catch((err) => TagService.post({ name: tag, user: user }));
+      })
+    );
+  },
 };
 
 export default TagService;

@@ -5,7 +5,7 @@ import { TagService } from "../services";
 
 const NoteService = {
   post: async (payload, user: number) => {
-    const tags = await TagService.getTags(payload.tags)
+    const tags = await TagService.getOrCreate(payload.tags, user)
     payload.tags = tags
     const note = await getRepository(Note).create(payload);
     return await getRepository(Note).save(note);

@@ -20,7 +20,7 @@ export class Tag {
   
   @ManyToOne((type) => User, (user) => user.days)
   @JoinColumn()
-  user: User;
+  user: number;
 
   @ManyToMany((type) => Note, note => note.tags)
   notes: Note[];
