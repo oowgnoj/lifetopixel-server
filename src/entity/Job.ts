@@ -1,6 +1,13 @@
-import { Entity, Column, PrimaryGeneratedColumn, OneToOne, ManyToOne, JoinColumn } from "typeorm";
-import User from './User'
-import Note from './Note'
+import {
+  Entity,
+  Column,
+  PrimaryGeneratedColumn,
+  OneToOne,
+  ManyToOne,
+  JoinColumn,
+} from "typeorm";
+import User from "./User";
+import Note from "./Note";
 
 @Entity()
 export class Job {
@@ -14,19 +21,18 @@ export class Job {
   description: string;
 
   @Column()
-  memo: string
+  memo: string;
 
-  @OneToOne(type => Note)
+  @OneToOne((type) => Note)
   @JoinColumn()
-  note: Note;
-  
-  @ManyToOne(type => User, user => user.id)
-  @JoinColumn()
-  user: User;
+  note: number;
 
-  @Column({ type: "timestamp", default: () => "NOW()"})
+  @ManyToOne((type) => User, (user) => user.id)
+  @JoinColumn()
+  user: number;
+
+  @Column({ type: "timestamp", default: () => "NOW()" })
   registeredAt: Date;
-
 }
 
 export default Job;

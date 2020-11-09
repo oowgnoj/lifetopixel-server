@@ -11,6 +11,7 @@ import {
 } from "typeorm";
 import { User } from "./User";
 import { Tag } from "./Tag";
+import Field from "./Field";
 
 @Entity()
 export class Note extends BaseEntity {
@@ -29,16 +30,19 @@ export class Note extends BaseEntity {
   @Column()
   reference: string;
 
-  
-  @ManyToMany((type) => Tag, tag => tag.notes, {eager: true})
+  @ManyToMany((type) => Tag, (tag) => tag.notes, { eager: true })
   @JoinTable()
-  tags: Tag[] ;
+  tags: Tag[];
 
   @ManyToOne((type) => User, (user) => user.id)
   @JoinColumn()
   user: User;
 
-  @Column({ type: "timestamp", default: () => "NOW()"})
+  @ManyToOne((type) => Field, (field) => field.id)
+  @JoinColumn()
+  field: number;
+
+  @Column({ type: "timestamp", default: () => "NOW()" })
   registeredAt: Date;
 }
 
