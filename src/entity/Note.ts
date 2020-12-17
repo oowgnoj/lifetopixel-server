@@ -38,7 +38,7 @@ export class Note extends BaseEntity {
   @JoinColumn()
   user: User;
 
-  @ManyToOne((type) => Field, (field) => field.id)
+  @ManyToOne((type) => Field, (field) => field.id, { eager: true })
   @JoinColumn()
   field: number;
 
